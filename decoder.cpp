@@ -64,7 +64,7 @@ string decrypt_2(string text_)
     uint8_t buffer_plain_pw[25];
     uint8_t buffer_cipher_pw[512];
     char buffer_plain[512];
-
+    
     ReplaceStringInPlace(text_, "&quot;", "\"");
     ReplaceStringInPlace(text_, "&apos;", "\'");
     ReplaceStringInPlace(text_, "&amp;", "&");
