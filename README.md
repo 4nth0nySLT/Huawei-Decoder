@@ -19,10 +19,11 @@ print(key) # "lascuatromarias"
 ### Example error 
 ```
 from decoder import decoder
+
+# from UnicodeDecodeError return Invalid
 key=decoder("$2 ... /r ...$") # Incorrect
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb8 in position 1: invalid start byte
+
+print(key) # "Invalid"
 
 key=decoder("$2 ... //r ...$") # Correct
 
