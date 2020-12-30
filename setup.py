@@ -6,7 +6,7 @@ include_dirs = ['./include'],
  sources = ['decoder.cpp'])
  
 setup (name = 'decoder',
-        version = '1.3.3',
+        version = '1.3.4',
         author="Anthony López Tinoco",
         description = 'Decode password Huawei',
         url="https://github.com/4nth0nySLT",

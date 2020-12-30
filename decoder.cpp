@@ -4,6 +4,33 @@
 #include <string>
 using namespace std;
 
+
+// code from http://www.zedwood.com/article/cpp-is-valid-utf8-string-function
+bool utf8_check_is_valid(const string& string)
+{
+    int c, i, ix, n, j;
+    for (i = 0, ix = 7; i < ix; i++)
+    {
+        c = (unsigned char)string[i];
+        //if (c==0x09 || c==0x0a || c==0x0d || (0x20 <= c && c <= 0x7e) ) n = 0; // is_printable_ascii
+        if (0x00 <= c && c <= 0x7f) n = 0; // 0bbbbbbb
+        else if ((c & 0xE0) == 0xC0) n = 1; // 110bbbbb
+        else if (c == 0xed && i < (ix - 1) && ((unsigned char)string[i + 1] & 0xa0) == 0xa0) return false; //U+d800 to U+dfff
+        else if ((c & 0xF0) == 0xE0) n = 2; // 1110bbbb
+        else if ((c & 0xF8) == 0xF0) n = 3; // 11110bbb
+        //else if ((c & 0xFC) == 0xF8) n=4; // 111110bb //byte 5, unnecessary in 4 byte UTF-8
+        //else if ((c & 0xFE) == 0xFC) n=5; // 1111110b //byte 6, unnecessary in 4 byte UTF-8
+        else return false;
+        for (j = 0; j < n && i < ix; j++) { // n bytes matching 10bbbbbb follow ?
+            if ((++i == ix) || (((unsigned char)string[i] & 0xC0) != 0x80))
+                return false;
+        }
+    }
+    return true;
+}
+
+
+
 // code from https://github.com/wx1183618058/HuaWei-Optical-Network-Terminal-Decoder/blob/master/huawei/aescrypt.cpp
 uint32_t aes_enh_sys_to_long(const uint8_t* plain)
 {
@@ -64,7 +91,7 @@ string decrypt_2(string text_)
     uint8_t buffer_plain_pw[25];
     uint8_t buffer_cipher_pw[512];
     char buffer_plain[512];
-    
+
     ReplaceStringInPlace(text_, "&quot;", "\"");
     ReplaceStringInPlace(text_, "&apos;", "\'");
     ReplaceStringInPlace(text_, "&amp;", "&");
@@ -86,7 +113,11 @@ string decrypt_2(string text_)
         aes_crypt_cbc(&aes_ctx, 0, 16, buffer_pw_IV, buffer_pw, buffer_plain_pw);
         memcpy((char*)buffer_plain + x * 16, (char*)buffer_plain_pw, 16);
     }
-    return (char*)buffer_plain;
+    string pass = (char*)buffer_plain;
+    if (utf8_check_is_valid(pass)){
+        return pass;
+    } else{
+     return "Invalid";}
 }
 
 
