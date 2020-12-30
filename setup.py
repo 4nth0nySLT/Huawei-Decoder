@@ -2,8 +2,7 @@ from distutils.core import setup, Extension
  
 module1 = Extension('decoder',
 include_dirs = ['./include'],
-
- sources = ['decoder.cpp'])
+ources = ['decoder.cpp'])
  
 setup (name = 'decoder',
         version = '1.3.4',

@@ -116,7 +116,8 @@ string decrypt_2(string text_)
     string pass = (char*)buffer_plain;
     if (utf8_check_is_valid(pass)){
         return pass;
-    } else{
+    } 
+    else{
      return "Invalid";}
 }
 
