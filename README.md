@@ -6,6 +6,11 @@ Decode $2...$
 python setup.py install
 ```
 
+### Problems with install?
+```
+c++ -O3 -Wall -shared -std=c++11 -fPIC -Iinclude $(python -m pybind11 --includes) decoder.cpp -o decoder$(python-config --extension-suffix)
+```
+
 ### Usage
 ```
 from decoder import decoder
