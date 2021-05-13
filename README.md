@@ -1,6 +1,9 @@
 # Huawei-Decoder Python Module
 Decode $2...$
 
+### Online version
+https://anthiago.com/h2o/get
+
 ### Install
 ```
 python setup.py install
